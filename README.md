@@ -1,5 +1,7 @@
 # ReUse! — Plataforma Web
 
+**Autora:** Bruna Pereira Cordeiro — RM 563153
+
 Versão web da plataforma **ReUse!**, desenvolvida com **Next.js** e integrada a um banco de dados **PostgreSQL** através do **Prisma ORM**. O objetivo desta fase não foi recriar todo o aplicativo mobile na web, e sim disponibilizar as áreas mais importantes da plataforma (catálogo de produtos, cadastro de itens e perfil do usuário) como uma via de acesso adicional para o usuário final.
 
 ## Tecnologias utilizadas
