@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export default async function ProdutosPage() {
   const produtos = await prisma.produto.findMany({
+    where: { ativo: true },
     orderBy: { criadoEm: "desc" },
   });
 

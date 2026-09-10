@@ -22,6 +22,7 @@ model Produto {
   categoria   String
   descricao   String
   imagemUrl   String?
+  ativo       Boolean  @default(true)
   criadoEm    DateTime @default(now())
   usuario     Usuario  @relation(fields: [usuarioId], references: [id])
   usuarioId   String

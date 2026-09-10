@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./globals.css";
 import { usuarioAtual } from "@/lib/session";
 import { sair } from "@/app/login/actions";
+import { ChatWidget } from "@/components/ChatWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,6 +70,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <footer className="border-t border-[#DDEFE2] bg-white py-6 text-center text-sm text-[#68736B]">
           ReUse! — plataforma de consumo consciente
         </footer>
+        {usuario && <ChatWidget />}
       </body>
     </html>
   );

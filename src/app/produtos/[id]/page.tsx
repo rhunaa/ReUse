@@ -41,6 +41,11 @@ export default async function ProdutoDetalhePage({ params }: Props) {
       <span className="mt-3 inline-block rounded-full bg-[#CFEED8] px-4 py-2 text-sm font-extrabold text-[#1F5D35]">
         {produto.categoria}
       </span>
+      {!produto.ativo && (
+        <span className="mt-3 ml-2 inline-block rounded-full bg-amber-100 px-4 py-2 text-sm font-extrabold text-amber-700">
+          Pausado
+        </span>
+      )}
 
       <h2 className="mt-6 text-lg font-black text-[#1F2D22]">Descrição</h2>
       <p className="mt-2 leading-relaxed text-[#68736B]">{produto.descricao}</p>

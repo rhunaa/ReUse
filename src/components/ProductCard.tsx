@@ -6,13 +6,14 @@ type ProductCardProps = {
   nome: string;
   categoria: string;
   imagemUrl: string | null;
+  pausado?: boolean;
 };
 
-export function ProductCard({ id, nome, categoria, imagemUrl }: ProductCardProps) {
+export function ProductCard({ id, nome, categoria, imagemUrl, pausado }: ProductCardProps) {
   return (
     <Link
       href={`/produtos/${id}`}
-      className="flex items-center gap-4 rounded-3xl bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
+      className={`flex items-center gap-4 rounded-3xl bg-white p-4 shadow-sm transition-shadow hover:shadow-md ${pausado ? "opacity-60" : ""}`}
     >
       {imagemUrl ? (
         <Image
@@ -33,6 +34,11 @@ export function ProductCard({ id, nome, categoria, imagemUrl }: ProductCardProps
         <span className="mt-1 inline-block rounded-full bg-[#CFEED8] px-3 py-1 text-xs font-bold text-[#1F5D35]">
           {categoria}
         </span>
+        {pausado && (
+          <span className="mt-1 ml-2 inline-block rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">
+            Pausado
+          </span>
+        )}
       </div>
     </Link>
   );
