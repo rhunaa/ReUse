@@ -1,7 +1,7 @@
 "use server";
 
+import { put } from "@vercel/blob";
 import { randomUUID } from "crypto";
-import { mkdir, writeFile } from "fs/promises";
 import { redirect } from "next/navigation";
 import path from "path";
 import { usuarioAtual } from "@/lib/session";
@@ -27,13 +27,10 @@ export async function criarProduto(
 
   let imagemUrl: string | null = null;
   if (imagem && imagem.size > 0) {
-    const bytes = Buffer.from(await imagem.arrayBuffer());
     const extensao = path.extname(imagem.name) || ".jpg";
     const nomeArquivo = `${randomUUID()}${extensao}`;
-    const pastaUploads = path.join(process.cwd(), "public", "uploads");
-    await mkdir(pastaUploads, { recursive: true });
-    await writeFile(path.join(pastaUploads, nomeArquivo), bytes);
-    imagemUrl = `/uploads/${nomeArquivo}`;
+    const blob = await put(nomeArquivo, imagem, { access: "public" });
+    imagemUrl = blob.url;
   }
 
   const produto = await prisma.produto.create({
