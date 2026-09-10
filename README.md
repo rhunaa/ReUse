@@ -4,14 +4,18 @@
 
 Versão web da plataforma **ReUse!**, desenvolvida com **Next.js** e integrada a um banco de dados **PostgreSQL** através do **Prisma ORM**. O objetivo desta fase não foi recriar todo o aplicativo mobile na web, e sim disponibilizar as áreas mais importantes da plataforma (catálogo de produtos, cadastro de itens e perfil do usuário) como uma via de acesso adicional para o usuário final.
 
+**Site publicado:** https://reuse-web-bay.vercel.app
+
 ## Tecnologias utilizadas
 
 - **Next.js 16** (App Router)
 - **TypeScript**
 - **Tailwind CSS**
-- **Prisma ORM 7**
+- **Prisma ORM 6**
 - **PostgreSQL** (hospedado no [Neon](https://neon.com))
 - **bcryptjs** para criptografia de senha
+- **Vercel Blob** para armazenamento das imagens dos produtos
+- Hospedado na **Vercel**
 
 ## Como rodar o projeto localmente
 
@@ -23,8 +27,9 @@ Versão web da plataforma **ReUse!**, desenvolvida com **Next.js** e integrada a
    ```
    DATABASE_URL="postgresql://usuario:senha@host/banco?sslmode=require"
    AUTH_SECRET="uma-chave-secreta-qualquer"
+   BLOB_READ_WRITE_TOKEN="token-do-vercel-blob"
    ```
-   Esse arquivo não é enviado ao GitHub (está no `.gitignore`), pois contém a senha do banco de dados. Cada pessoa que for rodar o projeto cria o seu próprio.
+   Esse arquivo não é enviado ao GitHub (está no `.gitignore`), pois contém a senha do banco de dados. Cada pessoa que for rodar o projeto cria o seu próprio. O `BLOB_READ_WRITE_TOKEN` é usado para salvar as imagens dos produtos (upload) e é gerado automaticamente ao conectar um projeto na Vercel a um Blob Store.
 3. Criar as tabelas no banco de dados:
    ```bash
    npx prisma migrate dev
