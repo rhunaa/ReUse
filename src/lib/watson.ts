@@ -1,5 +1,8 @@
 const VERSAO_API = "2021-06-14";
 
+// WATSON_ASSISTANT_ID deve ser o "Live Environment ID" do assistente
+// (Settings → API details), não o "Assistant ID" puro — a API v2 do
+// watsonx Assistant não aceita o Assistant ID diretamente.
 function credenciais() {
   const apiKey = process.env.WATSON_ASSISTANT_API_KEY;
   const url = process.env.WATSON_ASSISTANT_URL;

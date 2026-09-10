@@ -54,9 +54,9 @@ export function ChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 left-6 z-50 flex flex-col items-end">
       {aberto && (
-        <div className="mb-3 flex h-[420px] w-80 flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
+        <div className="mb-3 flex h-[420px] w-full max-w-80 flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
           <div className="bg-[#1F5D35] px-4 py-3 text-sm font-bold text-white">
             Assistente ReUse
           </div>

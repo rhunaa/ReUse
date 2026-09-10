@@ -4,6 +4,32 @@ import { prisma } from "@/lib/prisma";
 import { criarSessaoWatson, enviarMensagemWatson } from "@/lib/watson";
 import { extrairNomeCandidato } from "./produtoPorNome";
 
+function normalizar(mensagem: string): string {
+  return mensagem
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+}
+
+function ehComandoListar(mensagemNormalizada: string): boolean {
+  return (
+    (mensagemNormalizada.includes("meus produtos") ||
+      mensagemNormalizada.includes("minhas ofertas") ||
+      mensagemNormalizada.includes("publiquei") ||
+      mensagemNormalizada.includes("cadastrei")) &&
+    !mensagemNormalizada.includes("pausar") &&
+    !mensagemNormalizada.includes("reativ")
+  );
+}
+
+function ehComandoPausar(mensagemNormalizada: string): boolean {
+  return mensagemNormalizada.includes("pausar") || mensagemNormalizada.includes("pause");
+}
+
+function ehComandoReativar(mensagemNormalizada: string): boolean {
+  return mensagemNormalizada.includes("reativ") || mensagemNormalizada.includes("ativar");
+}
+
 async function tratarPausarOuReativar(
   usuarioId: string,
   mensagem: string,
@@ -74,16 +100,19 @@ export async function POST(request: Request) {
 
   try {
     const sessaoAtual = sessionId ?? (await criarSessaoWatson());
-    const resposta = await enviarMensagemWatson(sessaoAtual, mensagem);
+    const mensagemNormalizada = normalizar(mensagem);
 
-    let texto = resposta.texto;
+    let texto: string;
 
-    if (resposta.intent === "pausar_produto") {
+    if (ehComandoPausar(mensagemNormalizada)) {
       texto = await tratarPausarOuReativar(usuario.id, mensagem, false);
-    } else if (resposta.intent === "reativar_produto") {
+    } else if (ehComandoReativar(mensagemNormalizada)) {
       texto = await tratarPausarOuReativar(usuario.id, mensagem, true);
-    } else if (resposta.intent === "listar_produtos") {
+    } else if (ehComandoListar(mensagemNormalizada)) {
       texto = await tratarListarProdutos(usuario.id);
+    } else {
+      const resposta = await enviarMensagemWatson(sessaoAtual, mensagem);
+      texto = resposta.texto;
     }
 
     return NextResponse.json({ texto, sessionId: sessaoAtual });
